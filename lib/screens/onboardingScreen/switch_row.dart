@@ -14,7 +14,7 @@ class SwitchRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(isTheme==true?"theme":"Language", style: Theme.of(context).textTheme.bodyLarge),
-        isTheme==true?ThemeSwitch((index,selected){}):LanguageSwitch((index,selected){})
+        isTheme==true?ThemeSwitch():LanguageSwitch((index,selected){})
       ],
     );
   }
