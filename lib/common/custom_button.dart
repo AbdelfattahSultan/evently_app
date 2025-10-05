@@ -9,22 +9,25 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: onTap,
-      style: FilledButton.styleFrom(
-        padding: EdgeInsets.symmetric(
-          vertical: 16
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+      child: FilledButton(
+        onPressed: onTap,
+        style: FilledButton.styleFrom(
+          padding: EdgeInsets.symmetric(
+            vertical: 16
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16)
+          )
+          
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16)
-        )
-        
-      ),
-      child: Text(
-        content,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+        child: Text(
+          content,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+        ),
       ),
     );
   }
