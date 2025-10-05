@@ -43,6 +43,40 @@ class MyTheme {
       ),
       centerTitle: true,
     ),
+  
+    inputDecorationTheme: InputDecorationThemeData(
+      labelStyle: GoogleFonts.inter(color: AppColors.gray,fontSize: 16),
+      prefixIconColor: AppColors.gray,
+      suffixIconColor: AppColors.gray,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: AppColors.gray,
+          width: 2
+        )
+      ),
+      focusedBorder:OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: AppColors.gray,
+          width: 2
+        ),
+      ),
+      enabledBorder:OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: AppColors.gray,
+          width: 2
+        )
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: AppColors.gray,
+          width: 2
+        )
+      )
+    )
   );
 
   static final darkTheme = ThemeData(
