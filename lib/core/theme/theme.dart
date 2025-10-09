@@ -21,7 +21,7 @@ class MyTheme {
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
-      titleSmall: GoogleFonts.jockeyOne(
+      titleSmall: GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.bold,
       ),
@@ -43,40 +43,34 @@ class MyTheme {
       ),
       centerTitle: true,
     ),
-  
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: AppColors.white,
+      unselectedItemColor: AppColors.white,
+      type: BottomNavigationBarType.fixed,
+      selectedIconTheme: IconThemeData(color: AppColors.white),
+      backgroundColor: AppColors.primary,
+    ),
     inputDecorationTheme: InputDecorationThemeData(
-      labelStyle: GoogleFonts.inter(color: AppColors.gray,fontSize: 16),
+      labelStyle: GoogleFonts.inter(color: AppColors.gray, fontSize: 16),
       prefixIconColor: AppColors.gray,
       suffixIconColor: AppColors.gray,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: AppColors.gray,
-          width: 2
-        )
+        borderSide: BorderSide(color: AppColors.gray, width: 2),
       ),
-      focusedBorder:OutlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: AppColors.gray,
-          width: 2
-        ),
+        borderSide: BorderSide(color: AppColors.gray, width: 2),
       ),
-      enabledBorder:OutlineInputBorder(
+      enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: AppColors.gray,
-          width: 2
-        )
+        borderSide: BorderSide(color: AppColors.gray, width: 2),
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: AppColors.gray,
-          width: 2
-        )
-      )
-    )
+        borderSide: BorderSide(color: AppColors.gray, width: 2),
+      ),
+    ),
   );
 
   static final darkTheme = ThemeData(
@@ -109,6 +103,13 @@ class MyTheme {
         fontSize: 19,
         fontWeight: FontWeight.bold,
       ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: AppColors.white,
+      unselectedItemColor: AppColors.white,
+      type: BottomNavigationBarType.fixed,
+      selectedIconTheme: IconThemeData(color: AppColors.white),
+      backgroundColor: AppColors.primary,
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.darkPrimary,
