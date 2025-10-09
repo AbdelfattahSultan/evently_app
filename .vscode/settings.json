@@ -1,6 +1,8 @@
 {
   "cSpell.words": [
     "evently",
+    "locaton",
     "Logingoogle"
-  ]
+  ],
+  "cmake.ignoreCMakeListsMissing": true
 }
