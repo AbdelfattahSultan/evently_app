@@ -1,40 +1,36 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:evently_app/provider/lan_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
-typedef onLanguageChange = void Function(int index, Language selectedLanguage);
-
-enum Language { EN, AR }
 
 class LanguageSwitch extends StatefulWidget {
-  final onLanguageChange onLanChange;
-
-  final List<Language> languagesList = [Language.EN, Language.AR];
-
-  LanguageSwitch(this.onLanChange, {super.key});
+  const LanguageSwitch({super.key});
 
   @override
   State<LanguageSwitch> createState() => _LanguageSwitchState();
 }
 
 class _LanguageSwitchState extends State<LanguageSwitch> {
-  Language current = Language.EN;
   @override
   Widget build(BuildContext context) {
-    return AnimatedToggleSwitch<Language>.rolling(
-      current: current,
-      values: widget.languagesList,
+    LanguageProvider lanProvider = Provider.of<LanguageProvider>(context);
+
+    return AnimatedToggleSwitch<Locale>.rolling(
+      current: lanProvider.getLocalLanguage(),
+      values: lanProvider.languageList(),
       onChanged: (value) {
         setState(() {
-          current = value;
+          lanProvider.changeLocale(value);
         });
       },
       iconBuilder: (value, foreground) {
-        if (value == Language.AR) {
-          return Flag(Flags.egypt);
-        } else {
+        if (value == Locale("en")) {
           return Flag(Flags.united_kingdom);
+        } else {
+          return Flag(Flags.egypt);
         }
       },
       style: ToggleStyle(

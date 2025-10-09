@@ -28,7 +28,6 @@ class AppSharedPreferences {
   }
 
   Future<void> saveThemeMode(ThemeMode newTheme) async {
-    
     var theme = newTheme == ThemeMode.light ? light : dark;
 
     await _sharedPreferences.setString(themeKey, theme);
@@ -38,5 +37,16 @@ class AppSharedPreferences {
     var themeName = _sharedPreferences.getString(themeKey);
 
     return themeName == dark ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  Future<void> saveLanguage(Locale local) async {
+    await _sharedPreferences.setString("newLocal", local.languageCode);
+  }
+
+  Locale getLanguage() {
+    var newCode = _sharedPreferences.getString("newLocal");
+    return newCode == null
+        ? Locale("en")
+        : Locale.fromSubtags(languageCode: newCode);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:evently_app/common/custom_button.dart';
 import 'package:evently_app/core/design/app_images.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/screens/onboardingScreen/switch_row.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class Onboarding extends StatelessWidget {
             children: [
               Image.asset(AppImages.logo),
               SizedBox(width: 10),
-              Text("Evently"),
+              Text(AppLocalizations.of(context)!.appTitle),
             ],
           ),
         ),
@@ -31,12 +32,12 @@ class Onboarding extends StatelessWidget {
                   children: [
                     SizedBox(height: 28),
                     Text(
-                      "Personalize Your Experience",
+                      AppLocalizations.of(context)!.onBoardingTitle,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     SizedBox(height: 28),
                     Text(
-                      "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
+                      AppLocalizations.of(context)!.subTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     SizedBox(height: 28),
@@ -48,7 +49,7 @@ class Onboarding extends StatelessWidget {
                       ],
                     ),
                     Spacer(),
-                    CustomButton(onTap: () {}, content: "Let’s Start"),
+                    CustomButton(onTap: () {}, content: AppLocalizations.of(context)!.letsStart),
                     Spacer(),
                   ],
                 ),
