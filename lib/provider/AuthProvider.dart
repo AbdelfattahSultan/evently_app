@@ -1,4 +1,4 @@
-import 'package:evently_app/db/AppUser.dart';
+import 'package:evently_app/db/model/AppUser.dart';
 import 'package:evently_app/db/UserDao.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class AppAuthProvider extends ChangeNotifier {
     retrieveUserFromDataBse();
   }
 
-  AppUser? getUserName() {
+  AppUser? getUser() {
     return _dataBaseUser;
   }
 

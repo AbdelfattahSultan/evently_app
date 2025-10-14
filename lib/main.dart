@@ -9,6 +9,8 @@ import 'package:evently_app/provider/theme_provider.dart';
 import 'package:evently_app/screens/Login/Login.dart';
 import 'package:evently_app/screens/Register/Register.dart';
 import 'package:evently_app/screens/home/HomeScreen.dart';
+import 'package:evently_app/screens/home/Tabs/createEvent/createEvent.dart';
+
 import 'package:evently_app/screens/onboardingScreen/onboarding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,8 @@ class MyApp extends StatelessWidget {
         Routes.register: (context) => Register(),
         Routes.login: (context) => Login(),
         Routes.home: (context) => HomeScreen(),
+        Routes.createEvent: (context) => CreateEvent(),
+        
       },
 
       initialRoute: authProvider.isLoginBefore() ? Routes.home : Routes.login ,

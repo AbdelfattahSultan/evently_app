@@ -1,0 +1,246 @@
+import 'package:evently_app/Extensions/AppExtensions.dart';
+import 'package:evently_app/common/CustomTabBar.dart';
+import 'package:evently_app/common/Custom_Text_Filed.dart';
+import 'package:evently_app/common/custom_button.dart';
+import 'package:evently_app/core/design/app_colors.dart';
+import 'package:evently_app/db/EventDao.dart';
+
+import 'package:evently_app/db/model/CatgoryModel.dart';
+import 'package:evently_app/db/model/Event.dart';
+import 'package:evently_app/provider/AuthProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class CreateEvent extends StatefulWidget {
+  const CreateEvent({super.key});
+
+  @override
+  State<CreateEvent> createState() => _CreateEventState();
+}
+
+class _CreateEventState extends State<CreateEvent> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  var formKey = GlobalKey<FormState>();
+
+  CategoryModel categoryModel = CategoryModel.categories[0];
+  int selectedCategoryIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(title: Text('Create Event')),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(16),
+                  child: Image.asset(categoryModel.image ?? ""),
+                ),
+              ),
+              SizedBox(height: 16),
+              CustomTabBar(
+                categories: CategoryModel.categories,
+                selectedBgColor: Theme.of(context).colorScheme.primary,
+                selectedFgColor: AppColors.white,
+                unselectedBgColor: Colors.white,
+                unselectedFgColor: AppColors.primary,
+                onCategoryClick: (category, index) {
+                  categoryModel = category;
+                  selectedCategoryIndex = index;
+                  setState(() {});
+                },
+              ),
+              CustomTextFiled(
+                icon: Icons.edit,
+                label: "Event Title",
+                validator: (text) {
+                  if (text == null || text.trim().isEmpty) {
+                    return "Please enter title";
+                  }
+                  return null;
+                },
+                controller: titleController,
+              ),
+              SizedBox(height: 16),
+              CustomTextFiled(
+                controller: descriptionController,
+                label: "Description",
+                validator: (text) {
+                  if (text == null || text.trim().isEmpty) {
+                    return "Please enter description";
+                  }
+                  return null;
+                },
+                maxLines: 4,
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.calendar_month_outlined),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Event Date",
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
+                                  ),
+                                ],
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  chooseEventDate();
+                                },
+                                child: Text(
+                                  selectedDate == null
+                                      ? "Choose Date"
+                                      : selectedDate!.formatDate,
+
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.timer_outlined),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Event Time",
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
+                                  ),
+                                ],
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  chooseEventTime();
+                                },
+                                child: Text(
+                                  selectedTime == null
+                                      ? "Choose Time"
+                                      : selectedTime!.format(context),
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Spacer(),
+              CustomButton(
+                onTap: () {
+                  createEvent();
+                },
+                content: "Add Event",
+              ),
+              Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+
+  void chooseEventTime() async {
+    var time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    setState(() {
+      selectedTime = time;
+    });
+  }
+
+  void chooseEventDate() async {
+    var date = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 60)),
+    );
+    setState(() {
+      selectedDate = date;
+    });
+  }
+
+  bool isValidate() {
+    var invalidate = formKey.currentState?.validate() ?? false;
+
+    if (selectedDate == null) {
+      context.showMessageDialog("Please choose date");
+      invalidate = false;
+    } else if (selectedTime == null) {
+      invalidate = false;
+      context.showMessageDialog("Please choose Time");
+    }
+    return invalidate;
+  }
+
+  void createEvent() async {
+    if (!isValidate()) {
+      return;
+    }
+
+    AppAuthProvider userProvider = Provider.of<AppAuthProvider>(
+      context,
+      listen: false,
+    );
+    var event = Event(
+      title: titleController.text,
+      description: descriptionController.text,
+      dateTime: selectedDate,
+      timeOfDay: selectedTime?.toDateTime(),
+      category: CategoryModel.categories[selectedCategoryIndex].title,
+      creatorUserId: userProvider.getUser()?.id,
+    );
+
+    context.showLoadingDialog(message: "Creating Event",isDismissible: false);
+    await EventDao.addEvent(event);
+
+    Navigator.pop(context);
+  }
+}

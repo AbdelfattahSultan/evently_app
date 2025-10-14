@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:evently_app/db/AppUser.dart';
+import 'package:evently_app/db/model/AppUser.dart';
 
 class UserDao {
   static final _db = FirebaseFirestore.instance;

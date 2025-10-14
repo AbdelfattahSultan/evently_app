@@ -18,7 +18,7 @@ class MyTheme {
       ),
       titleMedium: GoogleFonts.inter(
         fontSize: 16,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
       titleSmall: GoogleFonts.inter(
