@@ -1,5 +1,5 @@
 import 'package:evently_app/Extensions/AppExtensions.dart';
-import 'package:evently_app/db/Event.dart';
+import 'package:evently_app/db/model/Event.dart';
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,9 @@ class _EventCardState extends State<EventCard> {
       height: size.height * 0.25,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        image: DecorationImage(image: AssetImage(widget.eventModel.image??"")),
+
+        image: DecorationImage(image: AssetImage(widget.eventModel.getCategoryImage())),
+        
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,14 +41,14 @@ class _EventCardState extends State<EventCard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  widget.eventModel.day??"",
+                 widget.eventModel.dateTime!.day.toString(),
                   style: context.fonts.titleSmall?.copyWith(
                     color: AppColors.primary,
                     
                   ),
                 ),
                 Text(
-                  widget.eventModel.month??"",
+                  widget.eventModel.dateTime!.viewMonthName,
                   style: context.fonts.titleSmall?.copyWith(
                     color: AppColors.primary,
                   ),
@@ -75,13 +77,10 @@ class _EventCardState extends State<EventCard> {
     
           IconButton(
             onPressed: () {
-              setState(() {
-                widget.eventModel.isFav = !widget.eventModel.isFav;
-              });
+              
             },
             icon: SvgPicture.asset(
-              widget.eventModel.isFav?
-              AppImages.loveFill:AppImages.heart,
+            AppImages.heart,
               color: AppColors.primary,
             ),
           ),
