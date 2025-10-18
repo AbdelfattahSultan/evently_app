@@ -234,7 +234,7 @@ class _CreateEventState extends State<CreateEvent> {
       description: descriptionController.text,
       dateTime: selectedDate,
       timeOfDay: selectedTime?.toDateTime(),
-      category: CategoryModel.categories[selectedCategoryIndex].title,
+      categoryId: CategoryModel.categories[selectedCategoryIndex].id,
       creatorUserId: userProvider.getUser()?.id,
     );
 

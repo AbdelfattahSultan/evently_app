@@ -1,13 +1,11 @@
 import 'package:evently_app/Extensions/AppExtensions.dart';
-import 'package:evently_app/common/CustomTabBar.dart';
 
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/core/routes/routes.dart';
-import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
-
 import 'package:evently_app/screens/home/Tabs/Favorites/Favorites.dart';
+
 import 'package:evently_app/screens/home/Tabs/homeTab/HomeTab.dart';
 import 'package:evently_app/screens/home/Tabs/map/Maps.dart';
 import 'package:evently_app/screens/home/Tabs/profile/Profile.dart';
@@ -23,14 +21,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currentTabIndex = 0;
   int currentNavIndex = 0;
 
-  List<Widget> tabs = [HomeTab(), Maps(), Favorites(), Profile()];
+  late List<Widget> tabs;
+  @override
+  void initState() {
+    super.initState();
+    tabs = [HomeTab(),  Maps(),Favorites(), Profile()];
+  }
+
   @override
   Widget build(BuildContext context) {
     AppAuthProvider authProvider = Provider.of<AppAuthProvider>(context);
-    final bool isHomeTab = currentNavIndex == 0;
+    final bool isHomeTab = currentNavIndex == 0 || currentNavIndex == 2;
 
     return Scaffold(
       appBar: isHomeTab
@@ -87,24 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
       body: Column(
         children: [
-          if (isHomeTab)
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadiusDirectional.only(
-                  bottomEnd: Radius.circular(16),
-                  bottomStart: Radius.circular(16),
-                ),
-              ),
-              child: CustomTabBar(
-                categories: CategoryModel.categoriesWithAll,
-                selectedBgColor: Colors.white,
-                selectedFgColor: AppColors.primary,
-                unselectedBgColor: Colors.transparent,
-                unselectedFgColor: Colors.white,
-              ),
-            ),
-          Expanded(child: tabs[currentNavIndex]),
+          
+          
+          Expanded(
+            child: tabs[currentNavIndex],
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

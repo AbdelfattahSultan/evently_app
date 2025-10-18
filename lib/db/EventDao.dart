@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/db/model/Event.dart';
 
@@ -19,9 +20,58 @@ class EventDao {
     await doc.set(event);
   }
 
-  static Future<List<Event>> getEvents() async {
-    var collectionRef = await _getEventsByCollection().get();
+  static Future<List<Event>> getEvents(int? categoryId) async {
+    Query<Event> query = _getEventsByCollection();
+    if (categoryId != null) {
+      query = query.where("categoryId", isEqualTo: categoryId);
+    }
+    query = query
+        .orderBy("dateTime", descending: false)
+        .orderBy("timeOfDay", descending: false);
+
+    var collectionRef = await query.get();
     return collectionRef.docs.map((snapShot) => snapShot.data()).toList();
   }
 
+  static Future<List<Event>> getFavoriteEvents(
+    int? categoryId,
+    List<String> eventIds,
+  ) async {
+    if (eventIds.isEmpty) {
+      return [];
+    }
+    Query<Event> query = _getEventsByCollection().where(
+      FieldPath.documentId,
+      whereIn: eventIds,
+    );
+    if (categoryId != null) {
+      query = query.where("categoryId", isEqualTo: categoryId);
+    }
+    query = query
+        .orderBy("dateTime", descending: false)
+        .orderBy("timeOfDay", descending: false);
+
+    var collectionRef = await query.get();
+    return collectionRef.docs.map((snapShot) => snapShot.data()).toList();
+  }
+
+  static Stream<List<Event>> getRealTimeUpdateEvents(int? categoryId) async* {
+    Query<Event> query = _getEventsByCollection();
+
+    if (categoryId != null) {
+      query = query.where("categoryId", isEqualTo: categoryId);
+    }
+
+    query = query
+        .orderBy("dateTime", descending: false)
+        .orderBy("timeOfDay", descending: false);
+
+    var collectionRef = query.snapshots();
+
+    yield* collectionRef.map(
+      (snapShot) => snapShot.docs.map((snapShot) => snapShot.data()).toList(),
+    );
+  }
+
+  
 }
