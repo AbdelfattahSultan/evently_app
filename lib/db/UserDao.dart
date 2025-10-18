@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/db/model/AppUser.dart';
 
+
 class UserDao {
   static final _db = FirebaseFirestore.instance;
 
@@ -20,8 +21,19 @@ class UserDao {
   }
 
   static Future<AppUser?> getUserById(String? userId) async {
-    var document = await _getUsersByCollection().
-    doc(userId).get();
+    var document = await _getUsersByCollection().doc(userId).get();
     return document.data();
+  }
+
+static  Future<AppUser> removeFavorite(String eventId, AppUser user) async {
+    user.favorites?.remove(eventId);
+    await _getUsersByCollection().doc(user.id).set(user);
+    return user;
+  }
+
+static  Future<AppUser> addToFavorite(String eventId, AppUser user) async {
+    user.favorites?.add(eventId);
+    await _getUsersByCollection().doc(user.id).set(user);
+    return user;
   }
 }

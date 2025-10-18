@@ -3,17 +3,18 @@ import 'package:evently_app/core/design/app_images.dart';
 class Event {
   String? id;
   String? creatorUserId;
-  String? category;
+  int? categoryId;
   String? image;
   String? title;
   String? description;
   DateTime? timeOfDay;
   DateTime? dateTime;
+  bool isFavorite = false;
 
   Event({
     this.id,
     this.title,
-    this.category,
+    this.categoryId,
     this.creatorUserId,
     this.timeOfDay,
     this.dateTime,
@@ -25,7 +26,7 @@ class Event {
     return {
       "id": id,
       "title": title,
-      "category": category,
+      "categoryId": categoryId,
       "creatorUserId": creatorUserId,
       "image": image,
       "description": description,
@@ -38,7 +39,7 @@ class Event {
     return Event(
       id: map?["id"],
       title: map?["title"],
-      category: map?["category"],
+      categoryId: map?["categoryId"],
       creatorUserId: map?["creatorUserId"],
       image: map?["image"],
       description: map?["description"],
@@ -48,22 +49,22 @@ class Event {
   }
 
   String getCategoryImage() {
-    switch (category?.toLowerCase()) {
-      case "sport":
+    switch (categoryId) {
+      case 1:
         return AppImages.sport;
-      case "birthday":
+      case 2:
         return AppImages.birthday;
-      case "eating":
+      case 3:
         return AppImages.eating;
-      case "gaming":
+      case 4:
         return AppImages.gaming;
-      case "book club":
+      case 5:
         return AppImages.bookClub;
-      case "holiday":
+      case 6:
         return AppImages.holiday;
-      case "meeting":
+      case 7:
         return AppImages.meeting;
-      case "work shop":
+      case 8:
         return AppImages.workShop;
       default:
         return '';
