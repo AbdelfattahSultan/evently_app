@@ -1,4 +1,5 @@
 import 'package:evently_app/core/design/app_images.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Event {
   String? id;
@@ -10,6 +11,7 @@ class Event {
   DateTime? timeOfDay;
   DateTime? dateTime;
   bool isFavorite = false;
+  LatLng? location;
 
   Event({
     this.id,
@@ -20,6 +22,7 @@ class Event {
     this.dateTime,
     this.image,
     this.description,
+    this.location,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,6 +35,8 @@ class Event {
       "description": description,
       "timeOfDay": timeOfDay?.microsecondsSinceEpoch,
       "dateTime": dateTime?.microsecondsSinceEpoch,
+      "lat": location?.latitude,
+      "lng": location?.longitude,
     };
   }
 
@@ -45,6 +50,9 @@ class Event {
       description: map?["description"],
       timeOfDay: DateTime.fromMicrosecondsSinceEpoch(map?["timeOfDay"]),
       dateTime: DateTime.fromMicrosecondsSinceEpoch(map?["dateTime"]),
+      location: (map?["lat"] != null && map?["lng"] != null)
+          ? LatLng((map?["lat"]).toDouble(), (map?["lng"]).toDouble())
+          : null,
     );
   }
 

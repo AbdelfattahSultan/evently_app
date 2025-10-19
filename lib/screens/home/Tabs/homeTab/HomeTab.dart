@@ -1,4 +1,3 @@
-
 import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/common/CustomTabBar.dart';
 import 'package:evently_app/core/design/app_colors.dart';
@@ -74,14 +73,14 @@ class _HomeTabState extends State<HomeTab> {
               }
               var events = snapshot.data;
 
-              if (events == null || events.isEmpty==true) {
+              if (events == null || events.isEmpty == true) {
                 return Center(
                   child: Center(
                     child: Text(
                       "No events found",
                       style: context.fonts.titleLarge?.copyWith(
                         color: AppColors.primary,
-                        fontSize: 16
+                        fontSize: 16,
                       ),
                     ),
                   ),
@@ -98,7 +97,7 @@ class _HomeTabState extends State<HomeTab> {
                     events[index].isFavorite = isFavorite;
                     return EventCard(eventModel: events[index]);
                   },
-                  itemCount: events.length ?? 0,
+                  itemCount: events.length ,
                 ),
               );
             },
