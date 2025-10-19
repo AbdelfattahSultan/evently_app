@@ -9,6 +9,8 @@ class Routes {
   static const String home = '/home';
   static const String createEvent = '/createEvent';
   static const String chooseLocation = '/ChooseLocation';
+  static const String intro = '/intro';
+
 
 
 
