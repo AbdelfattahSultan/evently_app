@@ -10,6 +10,7 @@ import 'package:evently_app/screens/Login/Login.dart';
 import 'package:evently_app/screens/Register/Register.dart';
 import 'package:evently_app/screens/home/HomeScreen.dart';
 import 'package:evently_app/screens/home/Tabs/createEvent/createEvent.dart';
+import 'package:evently_app/screens/onboardingScreen/IntroScreen.dart';
 
 import 'package:evently_app/screens/onboardingScreen/onboarding.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await AppSharedPreferences.init();
+  bool isFirstTime = AppSharedPreferences.getInstance().isOnboarding();
   runApp(
     MultiProvider(
       providers: [
@@ -27,13 +29,14 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => AppAuthProvider()),
       ],
-      child: const MyApp(),
+      child: MyApp(isFirstTime: isFirstTime),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  bool isFirstTime;
+  MyApp({super.key, required this.isFirstTime});
 
   // This widget is the root of your application.
   @override
@@ -60,10 +63,11 @@ class MyApp extends StatelessWidget {
         Routes.login: (context) => Login(),
         Routes.home: (context) => HomeScreen(),
         Routes.createEvent: (context) => CreateEvent(),
-        
+        Routes.intro: (context) => IntroScreen(),
       },
-
-      initialRoute: authProvider.isLoginBefore() ? Routes.home : Routes.login ,
+      initialRoute: isFirstTime
+          ? Routes.onBoarding
+          : (authProvider.isLoginBefore() ? Routes.home : Routes.login),
     );
   }
 }

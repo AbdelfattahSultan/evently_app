@@ -5,6 +5,9 @@ class AppSharedPreferences {
   static const String themeKey = "themeKey";
   static const String light = "light";
   static const String dark = "dark";
+  static const String onboarding = "onboardingKey";
+
+
 
   late SharedPreferences _sharedPreferences;
 
@@ -48,5 +51,13 @@ class AppSharedPreferences {
     return newCode == null
         ? Locale("en")
         : Locale.fromSubtags(languageCode: newCode);
+  }
+
+    Future<void> onboardingCheck(bool check) async {
+    await _sharedPreferences.setBool(onboarding, check);
+  }
+
+  bool isOnboarding() {
+    return _sharedPreferences.getBool(onboarding) ?? true;
   }
 }
