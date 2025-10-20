@@ -21,10 +21,7 @@ class MyTheme {
         fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
-      titleSmall: GoogleFonts.inter(
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
-      ),
+      titleSmall: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold),
       titleLarge: GoogleFonts.jockeyOne(
         fontSize: 36,
         fontWeight: FontWeight.bold,
@@ -75,7 +72,7 @@ class MyTheme {
 
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: AppColors.darkPrimary,
-    colorScheme: ColorScheme.light(primary: AppColors.primary),
+    colorScheme: ColorScheme.dark(primary: AppColors.darkPrimary),
     textTheme: TextTheme(
       bodyMedium: GoogleFonts.jockeyOne(
         fontSize: 24,
@@ -109,7 +106,7 @@ class MyTheme {
       unselectedItemColor: AppColors.white,
       type: BottomNavigationBarType.fixed,
       selectedIconTheme: IconThemeData(color: AppColors.white),
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.darkPrimary,
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.darkPrimary,

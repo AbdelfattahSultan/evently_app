@@ -1,23 +1,36 @@
+import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
+import 'package:evently_app/core/routes/routes.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
 
+import 'package:evently_app/screens/home/Tabs/profile/language_choose.dart';
+import 'package:evently_app/screens/home/Tabs/profile/theme_choose.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
   @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  @override
   Widget build(BuildContext context) {
     AppAuthProvider provider = Provider.of<AppAuthProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: AppColors.primary,
                 borderRadius: BorderRadiusDirectional.only(
                   bottomStart: Radius.circular(64),
                 ),
@@ -49,21 +62,69 @@ class Profile extends StatelessWidget {
                     children: [
                       Text(
                         provider.getUser()?.name ?? "",
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppColors.white,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(color: AppColors.white),
                       ),
                       Text(
                         provider.getUser()?.email ?? "",
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppColors.white,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(color: AppColors.white),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                "Language",
+                style: context.fonts.bodyLarge?.copyWith(color: Colors.black),
+              ),
+            ),
+            LanguageChoose(),
+            SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                "Theme",
+                style: context.fonts.bodyLarge?.copyWith(color: Colors.black),
+              ),
+            ),
+            ThemeChoose(),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+                onPressed: () {
+                  provider.logOut();
+                  Navigator.pushReplacementNamed(context, Routes.login);
+                },
+                child: Row(
+                  children: [
+                    SizedBox(width: 16),
+                    Icon(Icons.logout, color: Colors.white, size: 24),
+                    SizedBox(width: 8),
+                    Text(
+                      "Logout",
+                      style: context.fonts.titleMedium?.copyWith(
+                        color: AppColors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 24),
           ],
         ),
       ),
