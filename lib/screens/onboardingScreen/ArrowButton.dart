@@ -1,10 +1,10 @@
-import 'package:evently_app/Extensions/AppExtensions.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ArrowButton extends StatelessWidget {
   final VoidCallback onTap;
   final IconData icon;
-  const ArrowButton({super.key, required this.onTap,required this.icon});
+  const ArrowButton({super.key, required this.onTap, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,9 @@ class ArrowButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(365),
           color: Colors.transparent,
-          border: Border.all(color: context.colors.primary),
+          border: Border.all(color: AppColors.primary),
         ),
-        child: Icon(icon),
+        child: Icon(icon, color: AppColors.primary),
       ),
     );
   }

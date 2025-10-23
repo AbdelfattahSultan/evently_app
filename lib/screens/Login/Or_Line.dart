@@ -12,7 +12,6 @@ class OrLine extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              
               height: 1,
               width: double.infinity,
               color: AppColors.primary,
@@ -21,7 +20,7 @@ class OrLine extends StatelessWidget {
           Text(
             "  Or  ",
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+              color: AppColors.primary,
             ),
           ),
           Expanded(

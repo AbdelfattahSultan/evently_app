@@ -34,6 +34,7 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

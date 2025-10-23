@@ -80,7 +80,7 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 "Language",
-                style: context.fonts.bodyLarge?.copyWith(color: Colors.black),
+                style: context.fonts.bodySmall
               ),
             ),
             LanguageChoose(),
@@ -89,7 +89,7 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 "Theme",
-                style: context.fonts.bodyLarge?.copyWith(color: Colors.black),
+                style: context.fonts.bodySmall,
               ),
             ),
             ThemeChoose(),

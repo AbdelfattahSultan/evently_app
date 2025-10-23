@@ -2,6 +2,7 @@ import 'package:evently_app/common/Custom_Text_Filed.dart';
 import 'package:evently_app/common/Validator.dart';
 import 'package:evently_app/common/custom_button.dart';
 import 'package:evently_app/common/language_switch.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/core/routes/routes.dart';
 
@@ -84,7 +85,9 @@ class _LoginState extends State<Login> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(onPressed: () {}, child: Text("Forget Password?")),
+                TextButton(onPressed: () {}, child: Text("Forget Password?",style: TextStyle(
+                  color: AppColors.primary
+                ),)),
               ],
             ),
             CustomButton(
@@ -104,7 +107,9 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.register);
                   },
-                  child: Text("Create Account"),
+                  child: Text("Create Account",style: TextStyle(
+                    color: AppColors.primary
+                  ),),
                 ),
               ],
             ),

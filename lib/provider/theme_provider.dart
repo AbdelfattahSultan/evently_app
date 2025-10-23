@@ -24,4 +24,12 @@ class ThemeProvider extends ChangeNotifier {
   ThemeMode getThemeMode() {
     return _themeMode;
   }
+
+  bool isDarkMode() {
+    if (_themeMode == ThemeMode.dark) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

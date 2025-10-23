@@ -1,6 +1,7 @@
 import 'package:evently_app/common/Custom_Text_Filed.dart';
 import 'package:evently_app/common/Validator.dart';
 import 'package:evently_app/common/custom_button.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/core/routes/routes.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
@@ -122,14 +123,16 @@ class _RegisterState extends State<Register> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "I, Have Account ?",
+                        "Already Have Account ?",
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, Routes.login);
                         },
-                        child: Text("login"),
+                        child: Text("login",style: TextStyle(
+                          color: AppColors.primary,
+                        ),),
                       ),
                     ],
                   ),

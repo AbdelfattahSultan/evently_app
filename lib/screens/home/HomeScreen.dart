@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    tabs = [HomeTab(),  Maps(),Favorites(), Profile()];
+    tabs = [HomeTab(), Maps(), Favorites(), Profile()];
   }
 
   @override
@@ -43,15 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadiusGeometry.directional(),
               ),
-              backgroundColor: context.colors.primary,
+              // backgroundColor: context.colors.primary,
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     authProvider.getUser()?.name ?? "",
-                    style: context.fonts.bodyMedium?.copyWith(
-                      color: AppColors.white,
-                    ),
+                    style: context.fonts.bodyMedium,
                   ),
                   Text(
                     "Welcome Back",
@@ -88,15 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
               toolbarHeight: 0,
               elevation: 0,
             ),
-      body: Column(
-        children: [
-          
-          
-          Expanded(
-            child: tabs[currentNavIndex],
-          ),
-        ],
-      ),
+      body: Column(children: [Expanded(child: tabs[currentNavIndex])]),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentNavIndex,
         showSelectedLabels: true,
@@ -138,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadiusGeometry.circular(360),
           side: BorderSide(color: AppColors.white, width: 4),
         ),
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: AppColors.white),
       ),
     );
   }

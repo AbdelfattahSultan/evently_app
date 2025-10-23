@@ -1,4 +1,5 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -35,8 +36,8 @@ class _LanguageSwitchState extends State<ThemeSwitch> {
       },
       style: ToggleStyle(
         indicatorColor: Theme.of(context).colorScheme.primary,
-        borderColor: Theme.of(context).colorScheme.primary,
-        backgroundColor: Colors.transparent,
+        borderColor: AppColors.primary,
+        backgroundColor: AppColors.primary.withOpacity(0.1),
       ),
     );
   }

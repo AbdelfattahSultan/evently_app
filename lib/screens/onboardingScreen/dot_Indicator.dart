@@ -1,4 +1,5 @@
 import 'package:evently_app/Extensions/AppExtensions.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -14,7 +15,7 @@ class DotIndicator extends StatelessWidget {
       width: isSelected ? 21 : 8,
       height: 8,
       decoration: BoxDecoration(
-        color: isSelected ? context.colors.primary : Colors.black,
+        color: isSelected ? AppColors.primary : AppColors.primary.withOpacity(0.5),
         borderRadius: BorderRadius.circular(365),
       ),
       

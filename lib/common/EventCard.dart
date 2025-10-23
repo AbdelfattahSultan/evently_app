@@ -1,9 +1,9 @@
-
 import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/db/UserDao.dart';
 import 'package:evently_app/db/model/Event.dart';
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
+import 'package:evently_app/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,15 +18,19 @@ class EventCard extends StatefulWidget {
 class _EventCardState extends State<EventCard> {
   @override
   Widget build(BuildContext context) {
-  
+    ThemeProvider provider = Provider.of<ThemeProvider>(context);
+
     Size size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
       height: size.height * 0.25,
       decoration: BoxDecoration(
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.primary, width: 2),
         image: DecorationImage(
           image: AssetImage(widget.eventModel.getCategoryImage()),
+          fit: BoxFit.cover,
         ),
       ),
       child: Column(
@@ -37,7 +41,9 @@ class _EventCardState extends State<EventCard> {
             margin: EdgeInsets.all(12),
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: provider.isDarkMode()
+                  ? Theme.of(context).colorScheme.primary
+                  : AppColors.white,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -62,7 +68,9 @@ class _EventCardState extends State<EventCard> {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: AppColors.white,
+              color: provider.isDarkMode()
+                  ? AppColors.darkPrimary
+                  : Colors.white,
             ),
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             padding: EdgeInsets.symmetric(horizontal: 8),
@@ -71,9 +79,12 @@ class _EventCardState extends State<EventCard> {
                 Expanded(
                   child: Text(
                     widget.eventModel.description ?? "",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.fonts.titleSmall,
+
+                    style: context.fonts.bodyMedium?.copyWith(
+                      color: provider.isDarkMode()
+                          ? Colors.white
+                          : Colors.black,
+                    ),
                   ),
                 ),
 
@@ -104,7 +115,7 @@ class _EventCardState extends State<EventCard> {
     if (isFavorite) {
       user = await UserDao.removeFavorite(event.id!, provider.getUser()!);
     } else {
-      user =await UserDao.addToFavorite(event.id!, provider.getUser()!);
+      user = await UserDao.addToFavorite(event.id!, provider.getUser()!);
     }
     setState(() {
       event.isFavorite = !isFavorite;
