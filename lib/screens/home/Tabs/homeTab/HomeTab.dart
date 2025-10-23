@@ -1,6 +1,7 @@
 import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/common/CustomTabBar.dart';
 import 'package:evently_app/core/design/app_colors.dart';
+import 'package:evently_app/core/routes/routes.dart';
 import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
@@ -47,7 +48,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           child: CustomTabBar(
             categories: allCategories,
-            
+
             onCategoryClick: (category, index) {
               setState(() {
                 selectedCategoryIndex = index;
@@ -92,9 +93,11 @@ class _HomeTabState extends State<HomeTab> {
                     var event = events[index];
                     var isFavorite = provider.isFavorite(event);
                     events[index].isFavorite = isFavorite;
-                    return EventCard(eventModel: events[index]);
+                    return GestureDetector(onTap: () {
+                        Navigator.pushNamed(context, Routes.eventDetails,arguments: event);
+                    },child: EventCard(eventModel: events[index]));
                   },
-                  itemCount: events.length ,
+                  itemCount: events.length,
                 ),
               );
             },

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/db/model/Event.dart';
 
@@ -18,6 +17,12 @@ class EventDao {
     var doc = _getEventsByCollection().doc();
     event.id = doc.id;
     await doc.set(event);
+  }
+
+  static Future<void> deleteEvent(String eventId) async {
+    var ref = _getEventsByCollection();
+    var doc = ref.doc(eventId);
+    await doc.delete();
   }
 
   static Future<List<Event>> getEvents(int? categoryId) async {
@@ -72,6 +77,4 @@ class EventDao {
       (snapShot) => snapShot.docs.map((snapShot) => snapShot.data()).toList(),
     );
   }
-
-  
 }

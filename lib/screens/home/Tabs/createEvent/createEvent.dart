@@ -1,10 +1,10 @@
 import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/common/CustomTabBar.dart';
 import 'package:evently_app/common/Custom_Text_Filed.dart';
+import 'package:evently_app/common/EventInfoTile.dart';
 import 'package:evently_app/common/custom_button.dart';
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/db/EventDao.dart';
-
 import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/db/model/Event.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
@@ -58,7 +58,7 @@ class _CreateEventState extends State<CreateEvent> {
                 SizedBox(height: 16),
                 CustomTabBar(
                   categories: CategoryModel.categories,
-                
+
                   onCategoryClick: (category, index) {
                     categoryModel = category;
                     selectedCategoryIndex = index;
@@ -176,45 +176,14 @@ class _CreateEventState extends State<CreateEvent> {
                           });
                         }
                       },
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 16),
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.primary),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: AppColors.primary,
-                                  ),
-                                  child: Icon(
-                                    Icons.gps_fixed_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  selectedLocationName == null
-                                      ? "Choose Event Location"
-                                      : selectedLocationName ?? '',
-                                  style: context.fonts.titleMedium?.copyWith(
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: AppColors.primary,
-                            ),
-                          ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric( horizontal:  16),
+                        child: EventInfoTile(
+                          prefixIcon: Icons.gps_fixed_sharp,
+                          suffixIcon: Icons.arrow_forward,
+                          text: selectedLocationName == null
+                              ? "Choose Event Location"
+                              : selectedLocationName ?? '',
                         ),
                       ),
                     ),
