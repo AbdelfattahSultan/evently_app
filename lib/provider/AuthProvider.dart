@@ -66,24 +66,60 @@ class AppAuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
-    //user select google account --> idToken, accessToken
-    _intiGoogleSignIn();
+Future<AuthResponse> signInWithGoogle() async {
+  try {
+    await _intiGoogleSignIn();
+
+    // user selects google account
     GoogleSignInAccount account = await _google.authenticate();
     final idToken = account.authentication.idToken;
     final authClient = account.authorizationClient;
     final auth = await authClient.authorizationForScopes(['email', 'profile']);
     final accessToken = auth?.accessToken;
-    //tokens to firebase auth --> firebase user
 
+    // sign in to firebase
     final credential = GoogleAuthProvider.credential(
       idToken: idToken,
       accessToken: accessToken,
     );
-    
-    return await _fbAuthService.signInWithCredential(credential);
-    
+
+    final userCredential = await _fbAuthService.signInWithCredential(credential);
+    final fbUser = userCredential.user;
+
+    if (fbUser == null) {
+      return AuthResponse(success: false, failure: AuthFailure.general);
+    }
+
+  
+    AppUser? existingUser = await UserDao.getUserById(fbUser.uid);
+
+    if (existingUser == null) {
+      
+      AppUser newUser = AppUser(
+        id: fbUser.uid,
+        name: fbUser.displayName ?? '',
+        email: fbUser.email ?? '',
+        phone: fbUser.phoneNumber ?? '',
+        favorites: [],
+      );
+
+      await UserDao.addUser(newUser);
+      _dataBaseUser = newUser;
+    } else {
+      _dataBaseUser = existingUser;
+    }
+
+  
+    _fbUser = fbUser;
+    notifyListeners();
+
+    return AuthResponse(success: true, credential: userCredential, user: _dataBaseUser);
+
+  } catch (e) {
+    debugPrint("Error in Google Sign-In: $e");
+    return AuthResponse(success: false, failure: AuthFailure.general);
   }
+}
 
   Future<AuthResponse> register(
     String email,

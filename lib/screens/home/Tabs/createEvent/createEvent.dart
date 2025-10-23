@@ -37,6 +37,7 @@ class _CreateEventState extends State<CreateEvent> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Text('Create Event', style: context.fonts.bodyLarge),
       ),
       body: SingleChildScrollView(
@@ -191,7 +192,7 @@ class _CreateEventState extends State<CreateEvent> {
                                   padding: EdgeInsets.all(12),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: context.colors.primary,
+                                    color: AppColors.primary,
                                   ),
                                   child: Icon(
                                     Icons.gps_fixed_outlined,
@@ -204,14 +205,14 @@ class _CreateEventState extends State<CreateEvent> {
                                       ? "Choose Event Location"
                                       : selectedLocationName ?? '',
                                   style: context.fonts.titleMedium?.copyWith(
-                                    color: context.colors.primary,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ],
                             ),
                             Icon(
                               Icons.arrow_forward,
-                              color: context.colors.primary,
+                              color: AppColors.primary,
                             ),
                           ],
                         ),
