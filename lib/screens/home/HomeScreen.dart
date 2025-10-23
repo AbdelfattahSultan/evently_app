@@ -49,7 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     authProvider.getUser()?.name ?? "",
-                    style: context.fonts.bodyMedium,
+                    style: context.fonts.bodyMedium?.copyWith(
+                      color: Colors.white
+                    )
                   ),
                   Text(
                     "Welcome Back",
