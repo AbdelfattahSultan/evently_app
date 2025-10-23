@@ -13,6 +13,7 @@ class Onboarding extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

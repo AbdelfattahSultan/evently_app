@@ -1,4 +1,3 @@
-
 import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/common/CustomTabBar.dart';
 import 'package:evently_app/core/design/app_colors.dart';
@@ -6,7 +5,7 @@ import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
 
-import 'package:evently_app/screens/home/Tabs/homeTab/EventCard.dart';
+import 'package:evently_app/common/EventCard.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +39,7 @@ class _FavoritesState extends State<Favorites> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: Colors.transparent,
             borderRadius: BorderRadiusDirectional.only(
               bottomEnd: Radius.circular(16),
               bottomStart: Radius.circular(16),
@@ -48,10 +47,7 @@ class _FavoritesState extends State<Favorites> {
           ),
           child: CustomTabBar(
             categories: allCategories,
-            selectedBgColor: Colors.white,
-            selectedFgColor: AppColors.primary,
-            unselectedBgColor: Colors.transparent,
-            unselectedFgColor: Colors.white,
+
             onCategoryClick: (category, index) {
               setState(() {
                 selectedCategoryIndex = index;
@@ -74,14 +70,14 @@ class _FavoritesState extends State<Favorites> {
                 return Center(child: Text("something went wrong"));
               }
               var events = snapshot.data;
-                if (events == null || events.isEmpty==true) {
+              if (events == null || events.isEmpty == true) {
                 return Center(
                   child: Center(
                     child: Text(
                       "No events found",
                       style: context.fonts.titleLarge?.copyWith(
                         color: AppColors.primary,
-                        fontSize: 16
+                        fontSize: 16,
                       ),
                     ),
                   ),

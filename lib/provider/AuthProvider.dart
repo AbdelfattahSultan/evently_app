@@ -3,9 +3,10 @@ import 'package:evently_app/db/UserDao.dart';
 import 'package:evently_app/db/model/Event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AppAuthProvider extends ChangeNotifier {
-  final _fbAuthService = FirebaseAuth.instance;
+  static final _fbAuthService = FirebaseAuth.instance;
 
   AppUser? _dataBaseUser;
 
@@ -28,8 +29,6 @@ class AppAuthProvider extends ChangeNotifier {
     return _dataBaseUser;
   }
 
-  
-
   void logOut() {
     _fbAuthService.signOut();
     _dataBaseUser = null;
@@ -50,6 +49,40 @@ class AppAuthProvider extends ChangeNotifier {
     } else {
       return true;
     }
+  }
+
+  static final GoogleSignIn _google = GoogleSignIn.instance;
+
+  static bool _isInitialize = false;
+
+  static Future<void> _intiGoogleSignIn() async {
+    //initialize google signin --> identify app in google
+    if (!_isInitialize) {
+      await _google.initialize(
+        serverClientId:
+            '922575611847-s3bm8ilad0kpga00c75u5b9a6nb0ap2k.apps.googleusercontent.com', 
+      );
+      _isInitialize = true;
+    }
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+    //user select google account --> idToken, accessToken
+    _intiGoogleSignIn();
+    GoogleSignInAccount account = await _google.authenticate();
+    final idToken = account.authentication.idToken;
+    final authClient = account.authorizationClient;
+    final auth = await authClient.authorizationForScopes(['email', 'profile']);
+    final accessToken = auth?.accessToken;
+    //tokens to firebase auth --> firebase user
+
+    final credential = GoogleAuthProvider.credential(
+      idToken: idToken,
+      accessToken: accessToken,
+    );
+    
+    return await _fbAuthService.signInWithCredential(credential);
+    
   }
 
   Future<AuthResponse> register(
@@ -116,6 +149,7 @@ class AppAuthProvider extends ChangeNotifier {
     }
     return AuthResponse(success: false, failure: AuthFailure.general);
   }
+  
 }
 
 class AuthResponse {

@@ -11,11 +11,11 @@ import 'package:evently_app/screens/Register/Register.dart';
 import 'package:evently_app/screens/home/HomeScreen.dart';
 import 'package:evently_app/screens/home/Tabs/createEvent/createEvent.dart';
 import 'package:evently_app/screens/onboardingScreen/IntroScreen.dart';
-
 import 'package:evently_app/screens/onboardingScreen/onboarding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

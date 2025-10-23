@@ -5,7 +5,7 @@ import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
 
-import 'package:evently_app/screens/home/Tabs/homeTab/EventCard.dart';
+import 'package:evently_app/common/EventCard.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +39,7 @@ class _HomeTabState extends State<HomeTab> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadiusDirectional.only(
               bottomEnd: Radius.circular(16),
               bottomStart: Radius.circular(16),
@@ -47,10 +47,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           child: CustomTabBar(
             categories: allCategories,
-            selectedBgColor: Colors.white,
-            selectedFgColor: AppColors.primary,
-            unselectedBgColor: Colors.transparent,
-            unselectedFgColor: Colors.white,
+            
             onCategoryClick: (category, index) {
               setState(() {
                 selectedCategoryIndex = index;
