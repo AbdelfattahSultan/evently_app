@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:evently_app/common/SharedPreferences.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/firebase_options.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
@@ -78,6 +79,7 @@ class MySplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider provider = Provider.of<ThemeProvider>(context);
     AppAuthProvider authProvider = Provider.of<AppAuthProvider>(context);
 
     Widget nextScreen;
@@ -105,7 +107,7 @@ class MySplashScreen extends StatelessWidget {
       duration: 2500,
       splashTransition: SplashTransition.scaleTransition,
       pageTransitionType: PageTransitionType.fade,
-      backgroundColor: Colors.white,
+      backgroundColor:provider.isDarkMode()?AppColors.darkPrimary: Colors.white,
     );
   }
 }
