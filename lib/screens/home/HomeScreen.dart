@@ -61,12 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: AppColors.white,
                     ),
                   ),
-                  Row(
-                    children: [
-                      SvgPicture.asset(AppImages.location),
-                      SizedBox(width: 12),
-                    ],
-                  ),
                 ],
               ),
               actions: [
