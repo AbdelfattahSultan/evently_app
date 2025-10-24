@@ -30,8 +30,31 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   int currentSelectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
+    List<OnBoardingData> onBoardingList = [
+      OnBoardingData(
+        title: l10n.titleIntro1,
+        description:
+            l10n.introDesc1,
+        image: AppImages.intro1,
+      ),
+      OnBoardingData(
+        title: l10n.titleIntro2,
+        description:
+            l10n.introDesc2,
+        image: AppImages.intro2,
+      ),
+      OnBoardingData(
+        title: l10n.titleIntro3,
+        description:
+            l10n.introDesc3,
+        image: AppImages.intro3,
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -57,9 +80,9 @@ class _IntroScreenState extends State<IntroScreen> {
                     });
                   },
                   controller: pageController,
-                  itemCount: OnBoardingData.onBoardingList.length,
+                  itemCount: onBoardingList.length,
                   itemBuilder: (context, index) {
-                    var data = OnBoardingData.onBoardingList;
+                    var data = onBoardingList;
                     return PageViewItem(data: data[index]);
                   },
                 ),

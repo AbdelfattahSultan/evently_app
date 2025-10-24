@@ -45,6 +45,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -69,13 +70,13 @@ class _LoginState extends State<Login> {
                   CustomTextFiled(
                     controller: emailController,
                     icon: Icons.email,
-                    label: "Email",
+                    label: l10n.email,
                     validator: emailValidator,
                   ),
                   CustomTextFiled(
                     controller: passwordController,
                     icon: Icons.lock,
-                    label: "Password",
+                    label: l10n.password,
                     isPassword: true,
                     validator: validatePassword,
                   ),
@@ -85,31 +86,36 @@ class _LoginState extends State<Login> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(onPressed: () {}, child: Text("Forget Password?",style: TextStyle(
-                  color: AppColors.primary
-                ),)),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    l10n.forgetPass,
+                    style: TextStyle(color: AppColors.primary),
+                  ),
+                ),
               ],
             ),
             CustomButton(
               onTap: () {
                 login();
               },
-              content: "Login",
+              content: l10n.login,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Dont, Have Account ?",
+                  l10n.noAccount,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.register);
                   },
-                  child: Text("Create Account",style: TextStyle(
-                    color: AppColors.primary
-                  ),),
+                  child: Text(
+                      l10n.createAccount,
+                    style: TextStyle(color: AppColors.primary),
+                  ),
                 ),
               ],
             ),

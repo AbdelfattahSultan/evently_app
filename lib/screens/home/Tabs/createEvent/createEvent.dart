@@ -3,9 +3,11 @@ import 'package:evently_app/common/CustomTabBar.dart';
 import 'package:evently_app/common/Custom_Text_Filed.dart';
 import 'package:evently_app/common/EventInfoTile.dart';
 import 'package:evently_app/common/custom_button.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/db/model/Event.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
 import 'package:evently_app/screens/home/Tabs/createEvent/ChooseLocation.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +35,12 @@ class _CreateEventState extends State<CreateEvent> {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('Create Event', style: context.fonts.bodyLarge),
+        title: Text(l10n.createEvent, style: context.fonts.bodyLarge),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -66,7 +69,7 @@ class _CreateEventState extends State<CreateEvent> {
                 ),
                 CustomTextFiled(
                   icon: Icons.edit,
-                  label: "Event Title",
+                  label: l10n.eventTitle,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return "Please enter title";
@@ -78,7 +81,7 @@ class _CreateEventState extends State<CreateEvent> {
                 SizedBox(height: 5),
                 CustomTextFiled(
                   controller: descriptionController,
-                  label: "Description",
+                  label: l10n.eventDesc,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return "Please enter description";
@@ -100,7 +103,7 @@ class _CreateEventState extends State<CreateEvent> {
                               Icon(Icons.calendar_month_outlined),
                               SizedBox(width: 8),
                               Text(
-                                "Event Date",
+                                l10n.eventDate,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ],
@@ -111,15 +114,11 @@ class _CreateEventState extends State<CreateEvent> {
                             },
                             child: Text(
                               selectedDate == null
-                                  ? "Choose Date"
+                                  ? l10n.chooseDate
                                   : selectedDate!.formatDate,
 
                               style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
+                                  ?.copyWith(color: AppColors.primary),
                             ),
                           ),
                         ],
@@ -136,7 +135,7 @@ class _CreateEventState extends State<CreateEvent> {
                               Icon(Icons.timer_outlined),
                               SizedBox(width: 8),
                               Text(
-                                "Event Time",
+                                l10n.eventTime,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ],
@@ -147,19 +146,16 @@ class _CreateEventState extends State<CreateEvent> {
                             },
                             child: Text(
                               selectedTime == null
-                                  ? "Choose Time"
+                                  ? l10n.chooseTime
                                   : selectedTime!.format(context),
                               style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
+                                  ?.copyWith(color: AppColors.primary),
                             ),
                           ),
                         ],
                       ),
                     ),
+                    SizedBox(height: 8),
                     InkWell(
                       onTap: () async {
                         final result = await Navigator.push(
@@ -176,21 +172,22 @@ class _CreateEventState extends State<CreateEvent> {
                         }
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric( horizontal:  16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: EventInfoTile(
                           prefixIcon: Icons.gps_fixed_sharp,
                           suffixIcon: Icons.arrow_forward,
                           text: selectedLocationName == null
-                              ? "Choose Event Location"
+                              ? l10n.chooseLocation
                               : selectedLocationName ?? '',
                         ),
                       ),
                     ),
+                    SizedBox(height: 16),
                     CustomButton(
                       onTap: () {
                         createEvent();
                       },
-                      content: "Add Event",
+                      content: l10n.addEvent,
                     ),
                   ],
                 ),
