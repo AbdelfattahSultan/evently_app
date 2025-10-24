@@ -1,4 +1,6 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:evently_app/common/SharedPreferences.dart';
+import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/firebase_options.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/core/routes/routes.dart';
@@ -16,8 +18,8 @@ import 'package:evently_app/screens/onboardingScreen/IntroScreen.dart';
 import 'package:evently_app/screens/onboardingScreen/onboarding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,10 +46,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeProvider provider = Provider.of<ThemeProvider>(context);
-
     LanguageProvider lanProvider = Provider.of<LanguageProvider>(context);
-
-    AppAuthProvider authProvider = Provider.of<AppAuthProvider>(context);
 
     return MaterialApp(
       title: 'Evenly',
@@ -68,9 +67,45 @@ class MyApp extends StatelessWidget {
         Routes.eventDetails: (context) => EventDetails(),
         Routes.editEvent: (context) => EditEvent(),
       },
-      initialRoute: isFirstTime
-          ? Routes.onBoarding
-          : (authProvider.isLoginBefore() ? Routes.home : Routes.login),
+      home: MySplashScreen(isFirstTime: isFirstTime),
+    );
+  }
+}
+
+class MySplashScreen extends StatelessWidget {
+  final bool isFirstTime;
+  const MySplashScreen({super.key, required this.isFirstTime});
+
+  @override
+  Widget build(BuildContext context) {
+    AppAuthProvider authProvider = Provider.of<AppAuthProvider>(context);
+
+    Widget nextScreen;
+    if (isFirstTime) {
+      nextScreen = Onboarding();
+    } else if (authProvider.isLoginBefore()) {
+      nextScreen = HomeScreen();
+    } else {
+      nextScreen = Login();
+    }
+
+    return AnimatedSplashScreen(
+      splashIconSize: double.infinity,
+
+      splash: Column(
+        children: [
+          Spacer(),
+          Image.asset(AppImages.splashLogo, width: 150),
+          Spacer(),
+          Image.asset(AppImages.branding, width: 200),
+          SizedBox(height: 60),
+        ],
+      ),
+      nextScreen: nextScreen,
+      duration: 2500,
+      splashTransition: SplashTransition.scaleTransition,
+      pageTransitionType: PageTransitionType.fade,
+      backgroundColor: Colors.white,
     );
   }
 }
