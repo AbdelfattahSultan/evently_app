@@ -3,41 +3,79 @@ import 'package:evently_app/common/CustomTabBar.dart';
 import 'package:evently_app/common/Custom_Text_Filed.dart';
 import 'package:evently_app/common/EventInfoTile.dart';
 import 'package:evently_app/common/custom_button.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/db/model/Event.dart';
-import 'package:evently_app/provider/AuthProvider.dart';
 import 'package:evently_app/screens/home/Tabs/createEvent/ChooseLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 
-class CreateEvent extends StatefulWidget {
-  const CreateEvent({super.key});
+class EditEvent extends StatefulWidget {
+  const EditEvent({super.key});
 
   @override
-  State<CreateEvent> createState() => _CreateEventState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
-class _CreateEventState extends State<CreateEvent> {
+class _EditEventState extends State<EditEvent> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
   LatLng? selectedLocation;
   String? selectedLocationName;
+  Event? event;
+  bool _isLoaded = false;
 
   var formKey = GlobalKey<FormState>();
 
   CategoryModel categoryModel = CategoryModel.categories[0];
   int selectedCategoryIndex = 0;
 
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isLoaded) {
+      event = ModalRoute.of(context)!.settings.arguments as Event;
+      titleController.text = event!.title ?? '';
+      descriptionController.text = event!.description ?? '';
+      selectedDate = event!.dateTime;
+      selectedTime = event!.timeOfDay != null
+          ? TimeOfDay.fromDateTime(event!.timeOfDay!)
+          : null;
+
+      selectedCategoryIndex = CategoryModel.categories.indexWhere(
+        (cat) => cat.id == event!.categoryId,
+      );
+      if (selectedCategoryIndex == -1) {
+        selectedCategoryIndex = 0;
+      }
+      categoryModel = CategoryModel.categories[selectedCategoryIndex];
+
+      _isLoaded = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_isLoaded || event == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('Create Event', style: context.fonts.bodyLarge),
+        title: Text('Edit Event', style: context.fonts.bodyLarge?.copyWith(
+          color: AppColors.primary
+        )),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -110,10 +148,7 @@ class _CreateEventState extends State<CreateEvent> {
                               chooseEventDate();
                             },
                             child: Text(
-                              selectedDate == null
-                                  ? "Choose Date"
-                                  : selectedDate!.formatDate,
-
+                              selectedDate!.formatDate,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
                                     color: Theme.of(
@@ -127,7 +162,6 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),
-
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -146,9 +180,7 @@ class _CreateEventState extends State<CreateEvent> {
                               chooseEventTime();
                             },
                             child: Text(
-                              selectedTime == null
-                                  ? "Choose Time"
-                                  : selectedTime!.format(context),
+                              selectedTime!.format(context),
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
                                     color: Theme.of(
@@ -176,21 +208,19 @@ class _CreateEventState extends State<CreateEvent> {
                         }
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric( horizontal:  16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: EventInfoTile(
                           prefixIcon: Icons.gps_fixed_sharp,
                           suffixIcon: Icons.arrow_forward,
-                          text: selectedLocationName == null
-                              ? "Choose Event Location"
-                              : selectedLocationName ?? '',
+                          text: selectedLocationName ?? "Update Event Location",
                         ),
                       ),
                     ),
                     CustomButton(
                       onTap: () {
-                        createEvent();
+                        updateEvent();
                       },
-                      content: "Add Event",
+                      content: "Update Event",
                     ),
                   ],
                 ),
@@ -202,29 +232,31 @@ class _CreateEventState extends State<CreateEvent> {
     );
   }
 
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-
   void chooseEventTime() async {
     var time = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: selectedTime ?? TimeOfDay.now(),
     );
 
-    setState(() {
-      selectedTime = time;
-    });
+    if (time != null) {
+      setState(() {
+        selectedTime = time;
+      });
+    }
   }
 
   void chooseEventDate() async {
     var date = await showDatePicker(
       context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 60)),
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 30)),
+      lastDate: DateTime.now().add(Duration(days: 365)),
     );
-    setState(() {
-      selectedDate = date;
-    });
+    if (date != null) {
+      setState(() {
+        selectedDate = date;
+      });
+    }
   }
 
   bool isValidate() {
@@ -240,28 +272,26 @@ class _CreateEventState extends State<CreateEvent> {
     return invalidate;
   }
 
-  void createEvent() async {
+  void updateEvent() async {
     if (!isValidate()) {
       return;
     }
 
-    AppAuthProvider userProvider = Provider.of<AppAuthProvider>(
-      context,
-      listen: false,
-    );
-    var event = Event(
+    var updatedEventData = Event(
+      id: event!.id,
       title: titleController.text,
       description: descriptionController.text,
       dateTime: selectedDate,
       timeOfDay: selectedTime?.toDateTime(),
       categoryId: CategoryModel.categories[selectedCategoryIndex].id,
-      creatorUserId: userProvider.getUser()?.id,
-      location: selectedLocation,
+      creatorUserId: event!.creatorUserId,
+      location: selectedLocation ?? event!.location,
     );
 
-    context.showLoadingDialog(message: "Creating Event", isDismissible: false);
-    await EventDao.addEvent(event);
+    context.showLoadingDialog(message: "Updating Event", isDismissible: false);
+    await EventDao.editEvent(updatedEventData);
 
+    Navigator.pop(context);
     Navigator.pop(context);
   }
 }
