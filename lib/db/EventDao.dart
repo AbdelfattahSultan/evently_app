@@ -25,6 +25,12 @@ class EventDao {
     await doc.delete();
   }
 
+  static Future<void> editEvent(Event event) async {
+    var ref = _getEventsByCollection();
+    var doc = ref.doc(event.id);
+    await doc.update(event.toMap());
+  }
+
   static Future<List<Event>> getEvents(int? categoryId) async {
     Query<Event> query = _getEventsByCollection();
     if (categoryId != null) {

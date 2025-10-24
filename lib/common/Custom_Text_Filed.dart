@@ -29,6 +29,7 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: TextFormField(
+        style: Theme.of(context).textTheme.titleMedium,
         maxLines: widget.maxLines,
         controller: widget.controller,
         validator: widget.validator,

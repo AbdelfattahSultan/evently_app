@@ -1,4 +1,3 @@
-import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:flutter/material.dart';
 

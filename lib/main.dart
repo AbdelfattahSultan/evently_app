@@ -6,6 +6,7 @@ import 'package:evently_app/core/theme/theme.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
 import 'package:evently_app/provider/lan_provider.dart';
 import 'package:evently_app/provider/theme_provider.dart';
+import 'package:evently_app/screens/EditEvent/Edit_Event.dart';
 import 'package:evently_app/screens/EventDetails/Event_Details.dart';
 import 'package:evently_app/screens/Login/Login.dart';
 import 'package:evently_app/screens/Register/Register.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         Routes.createEvent: (context) => CreateEvent(),
         Routes.intro: (context) => IntroScreen(),
         Routes.eventDetails: (context) => EventDetails(),
+        Routes.editEvent: (context) => EditEvent(),
       },
       initialRoute: isFirstTime
           ? Routes.onBoarding

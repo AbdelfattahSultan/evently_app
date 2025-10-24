@@ -2,6 +2,7 @@
 import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/common/EventInfoTile.dart';
 import 'package:evently_app/core/design/app_colors.dart';
+import 'package:evently_app/core/routes/routes.dart';
 import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/Event.dart';
 import 'package:evently_app/provider/theme_provider.dart';
@@ -34,6 +35,7 @@ class _EventDetailsState extends State<EventDetails> {
       _isLoaded = true;
     }
   }
+  @override
   void initState() {
     super.initState();
     setMapStyle();
@@ -72,7 +74,9 @@ class _EventDetailsState extends State<EventDetails> {
         centerTitle: true,
         title: Text("Event Details",style: context.fonts.bodyLarge?.copyWith(color: AppColors.primary)),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+          IconButton(onPressed: () {
+            Navigator.pushNamed(context, Routes.editEvent, arguments: event);
+          }, icon: Icon(Icons.edit)),
           IconButton(
             onPressed: () async {
               await EventDao.deleteEvent(event.id!);
@@ -104,7 +108,7 @@ class _EventDetailsState extends State<EventDetails> {
                 EventInfoTile(
                   prefixIcon: Icons.calendar_month_rounded,
 
-                  text: "${event.dateTime!.formatDate}",
+                  text: event.dateTime!.formatDate,
                 ),
                 SizedBox(height: 16),
 

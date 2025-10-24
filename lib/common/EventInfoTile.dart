@@ -24,25 +24,27 @@ class EventInfoTile extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.primary,
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: AppColors.primary,
+                  ),
+                  child: Icon(prefixIcon, color: Colors.white),
                 ),
-                child: Icon(prefixIcon, color: Colors.white),
-              ),
-              SizedBox(width: 8),
-              Text(
-                overflow: TextOverflow.ellipsis,
-                text,
-                style: context.fonts.titleMedium?.copyWith(
-                  color: AppColors.primary,
+                SizedBox(width: 8),
+                Text(
+                  overflow: TextOverflow.ellipsis,
+                  text,
+                  style: context.fonts.titleMedium?.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Icon(suffixIcon, color: AppColors.primary),
         ],
