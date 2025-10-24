@@ -2,6 +2,7 @@ import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/core/routes/routes.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
 
 import 'package:evently_app/screens/home/Tabs/profile/language_choose.dart';
@@ -21,6 +22,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     AppAuthProvider provider = Provider.of<AppAuthProvider>(context);
 
     return SafeArea(
@@ -79,7 +81,7 @@ class _ProfileState extends State<Profile> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
-                "Language",
+                l10n.language,
                 style: context.fonts.bodySmall
               ),
             ),
@@ -88,7 +90,7 @@ class _ProfileState extends State<Profile> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
-                "Theme",
+                l10n.theme,
                 style: context.fonts.bodySmall,
               ),
             ),
@@ -114,7 +116,7 @@ class _ProfileState extends State<Profile> {
                     Icon(Icons.logout, color: Colors.white, size: 24),
                     SizedBox(width: 8),
                     Text(
-                      "Logout",
+                      l10n.logout,
                       style: context.fonts.titleMedium?.copyWith(
                         color: AppColors.white,
                         fontSize: 20,

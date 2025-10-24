@@ -3,6 +3,7 @@ import 'package:evently_app/Extensions/AppExtensions.dart';
 import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/core/routes/routes.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/provider/AuthProvider.dart';
 import 'package:evently_app/screens/home/Tabs/Favorites/Favorites.dart';
 
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     AppAuthProvider authProvider = Provider.of<AppAuthProvider>(context);
     final bool isHomeTab = currentNavIndex == 0 || currentNavIndex == 2;
 
@@ -54,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   ),
                   Text(
-                    "Welcome Back",
+                    l10n.welcome,
                     style: context.fonts.bodyMedium?.copyWith(
                       color: AppColors.white,
                     ),
@@ -63,12 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       SvgPicture.asset(AppImages.location),
                       SizedBox(width: 12),
-                      Text(
-                        "Cairo , Egypt",
-                        style: context.fonts.titleMedium?.copyWith(
-                          color: AppColors.white,
-                        ),
-                      ),
                     ],
                   ),
                 ],
@@ -101,22 +97,22 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppImages.homeIcon),
-            label: "home",
+            label: l10n.home,
             activeIcon: SvgPicture.asset(AppImages.homeFill),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppImages.location),
-            label: "map",
+            label: l10n.map,
             activeIcon: SvgPicture.asset(AppImages.mapFill),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppImages.heart),
-            label: "Love",
+            label: l10n.favorite,
             activeIcon: SvgPicture.asset(AppImages.loveFill),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(AppImages.person),
-            label: "Profile",
+            label: l10n.profile,
             activeIcon: SvgPicture.asset(AppImages.personFil),
           ),
         ],

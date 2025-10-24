@@ -7,6 +7,7 @@ import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/CatgoryModel.dart';
 import 'package:evently_app/db/model/Event.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/screens/home/Tabs/createEvent/ChooseLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -62,6 +63,7 @@ class _EditEventState extends State<EditEvent> {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     if (!_isLoaded || event == null) {
       return Scaffold(
         appBar: AppBar(),
@@ -73,9 +75,10 @@ class _EditEventState extends State<EditEvent> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('Edit Event', style: context.fonts.bodyLarge?.copyWith(
-          color: AppColors.primary
-        )),
+        title: Text(
+          l10n.editEvent,
+          style: context.fonts.bodyLarge?.copyWith(color: AppColors.primary),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -104,7 +107,7 @@ class _EditEventState extends State<EditEvent> {
                 ),
                 CustomTextFiled(
                   icon: Icons.edit,
-                  label: "Event Title",
+                  label: l10n.eventTitle,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return "Please enter title";
@@ -116,7 +119,7 @@ class _EditEventState extends State<EditEvent> {
                 SizedBox(height: 5),
                 CustomTextFiled(
                   controller: descriptionController,
-                  label: "Description",
+                  label: l10n.eventDesc,
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return "Please enter description";
@@ -138,7 +141,7 @@ class _EditEventState extends State<EditEvent> {
                               Icon(Icons.calendar_month_outlined),
                               SizedBox(width: 8),
                               Text(
-                                "Event Date",
+                                l10n.eventDate,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ],
@@ -151,9 +154,7 @@ class _EditEventState extends State<EditEvent> {
                               selectedDate!.formatDate,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
+                                    color: AppColors.primary,
                                   ),
                             ),
                           ),
@@ -170,7 +171,7 @@ class _EditEventState extends State<EditEvent> {
                               Icon(Icons.timer_outlined),
                               SizedBox(width: 8),
                               Text(
-                                "Event Time",
+                                l10n.eventTime,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ],
@@ -183,9 +184,7 @@ class _EditEventState extends State<EditEvent> {
                               selectedTime!.format(context),
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
+                                    color: AppColors.primary,
                                   ),
                             ),
                           ),
@@ -212,15 +211,16 @@ class _EditEventState extends State<EditEvent> {
                         child: EventInfoTile(
                           prefixIcon: Icons.gps_fixed_sharp,
                           suffixIcon: Icons.arrow_forward,
-                          text: selectedLocationName ?? "Update Event Location",
+                          text: selectedLocationName ?? l10n.updateEventLocation,
                         ),
                       ),
                     ),
+                    SizedBox(height: 16,),
                     CustomButton(
                       onTap: () {
                         updateEvent();
                       },
-                      content: "Update Event",
+                      content: l10n.updateEvent,
                     ),
                   ],
                 ),

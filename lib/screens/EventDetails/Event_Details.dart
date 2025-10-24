@@ -5,6 +5,7 @@ import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/routes/routes.dart';
 import 'package:evently_app/db/EventDao.dart';
 import 'package:evently_app/db/model/Event.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -65,6 +66,7 @@ class _EventDetailsState extends State<EventDetails> {
 
   @override
   Widget build(BuildContext context) {
+
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     final event = ModalRoute.of(context)!.settings.arguments as Event;
     return Scaffold(
@@ -72,7 +74,7 @@ class _EventDetailsState extends State<EventDetails> {
         iconTheme: IconThemeData(color: AppColors.primary)  ,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: Text("Event Details",style: context.fonts.bodyLarge?.copyWith(color: AppColors.primary)),
+        title: Text(AppLocalizations.of(context)!.eventDetails,style: context.fonts.bodyLarge?.copyWith(color: AppColors.primary)),
         actions: [
           IconButton(onPressed: () {
             Navigator.pushNamed(context, Routes.editEvent, arguments: event);
@@ -141,7 +143,7 @@ class _EventDetailsState extends State<EventDetails> {
                   ),
                 ),
                 SizedBox(height: 16),
-                Text("Description"),
+                Text(AppLocalizations.of(context)!.eventDesc),
                 SizedBox(height: 5),
                 Text(event.description ?? ""),
               ],
