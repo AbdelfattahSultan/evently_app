@@ -1,5 +1,6 @@
 import 'package:evently_app/common/custom_button.dart';
 import 'package:evently_app/core/design/app_images.dart';
+import 'package:evently_app/core/routes/routes.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/screens/onboardingScreen/switch_row.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class Onboarding extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -49,7 +51,9 @@ class Onboarding extends StatelessWidget {
                       ],
                     ),
                     Spacer(),
-                    CustomButton(onTap: () {}, content: AppLocalizations.of(context)!.letsStart),
+                    CustomButton(onTap: () {
+                      Navigator.pushReplacementNamed(context, Routes.intro);
+                    }, content: AppLocalizations.of(context)!.letsStart),
                     Spacer(),
                   ],
                 ),

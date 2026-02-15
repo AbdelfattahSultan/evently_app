@@ -2,6 +2,7 @@ import 'package:evently_app/common/Custom_Text_Filed.dart';
 import 'package:evently_app/common/Validator.dart';
 import 'package:evently_app/common/custom_button.dart';
 import 'package:evently_app/common/language_switch.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/core/routes/routes.dart';
 
@@ -44,7 +45,9 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,13 +70,13 @@ class _LoginState extends State<Login> {
                   CustomTextFiled(
                     controller: emailController,
                     icon: Icons.email,
-                    label: "Email",
+                    label: l10n.email,
                     validator: emailValidator,
                   ),
                   CustomTextFiled(
                     controller: passwordController,
                     icon: Icons.lock,
-                    label: "Password",
+                    label: l10n.password,
                     isPassword: true,
                     validator: validatePassword,
                   ),
@@ -83,27 +86,36 @@ class _LoginState extends State<Login> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(onPressed: () {}, child: Text("Forget Password?")),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    l10n.forgetPass,
+                    style: TextStyle(color: AppColors.primary),
+                  ),
+                ),
               ],
             ),
             CustomButton(
               onTap: () {
                 login();
               },
-              content: "Login",
+              content: l10n.login,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Dont, Have Account ?",
+                  l10n.noAccount,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.register);
                   },
-                  child: Text("Create Account"),
+                  child: Text(
+                      l10n.createAccount,
+                    style: TextStyle(color: AppColors.primary),
+                  ),
                 ),
               ],
             ),

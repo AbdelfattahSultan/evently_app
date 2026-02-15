@@ -1,3 +1,4 @@
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -14,6 +15,7 @@ class CustomButton extends StatelessWidget {
       child: FilledButton(
         onPressed: onTap,
         style: FilledButton.styleFrom(
+          backgroundColor: AppColors.primary,
           padding: EdgeInsets.symmetric(
             vertical: 16
           ),

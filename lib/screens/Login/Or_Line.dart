@@ -1,4 +1,5 @@
 import 'package:evently_app/core/design/app_colors.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class OrLine extends StatelessWidget {
@@ -6,22 +7,22 @@ class OrLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 40,vertical: 16),
       child: Row(
         children: [
           Expanded(
             child: Container(
-              
               height: 1,
               width: double.infinity,
               color: AppColors.primary,
             ),
           ),
           Text(
-            "  Or  ",
+              l10n.or,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+              color: AppColors.primary,
             ),
           ),
           Expanded(

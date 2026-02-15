@@ -1,10 +1,12 @@
-import 'package:evently_app/db/AppUser.dart';
+import 'package:evently_app/db/model/AppUser.dart';
 import 'package:evently_app/db/UserDao.dart';
+import 'package:evently_app/db/model/Event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AppAuthProvider extends ChangeNotifier {
-  final _fbAuthService = FirebaseAuth.instance;
+  static final _fbAuthService = FirebaseAuth.instance;
 
   AppUser? _dataBaseUser;
 
@@ -14,7 +16,16 @@ class AppAuthProvider extends ChangeNotifier {
     retrieveUserFromDataBse();
   }
 
-  AppUser? getUserName() {
+  bool isFavorite(Event event) {
+    return _dataBaseUser?.favorites?.contains(event.id) ?? false;
+  }
+
+  void updateFavorites(List<String> favorites) async {
+    _dataBaseUser?.favorites = favorites;
+    notifyListeners();
+  }
+
+  AppUser? getUser() {
     return _dataBaseUser;
   }
 
@@ -39,6 +50,76 @@ class AppAuthProvider extends ChangeNotifier {
       return true;
     }
   }
+
+  static final GoogleSignIn _google = GoogleSignIn.instance;
+
+  static bool _isInitialize = false;
+
+  static Future<void> _intiGoogleSignIn() async {
+    //initialize google signin --> identify app in google
+    if (!_isInitialize) {
+      await _google.initialize(
+        serverClientId:
+            '922575611847-s3bm8ilad0kpga00c75u5b9a6nb0ap2k.apps.googleusercontent.com', 
+      );
+      _isInitialize = true;
+    }
+  }
+
+Future<AuthResponse> signInWithGoogle() async {
+  try {
+    await _intiGoogleSignIn();
+
+    // user selects google account
+    GoogleSignInAccount account = await _google.authenticate();
+    final idToken = account.authentication.idToken;
+    final authClient = account.authorizationClient;
+    final auth = await authClient.authorizationForScopes(['email', 'profile']);
+    final accessToken = auth?.accessToken;
+
+    // sign in to firebase
+    final credential = GoogleAuthProvider.credential(
+      idToken: idToken,
+      accessToken: accessToken,
+    );
+
+    final userCredential = await _fbAuthService.signInWithCredential(credential);
+    final fbUser = userCredential.user;
+
+    if (fbUser == null) {
+      return AuthResponse(success: false, failure: AuthFailure.general);
+    }
+
+  
+    AppUser? existingUser = await UserDao.getUserById(fbUser.uid);
+
+    if (existingUser == null) {
+      
+      AppUser newUser = AppUser(
+        id: fbUser.uid,
+        name: fbUser.displayName ?? '',
+        email: fbUser.email ?? '',
+        phone: fbUser.phoneNumber ?? '',
+        favorites: [],
+      );
+
+      await UserDao.addUser(newUser);
+      _dataBaseUser = newUser;
+    } else {
+      _dataBaseUser = existingUser;
+    }
+
+  
+    _fbUser = fbUser;
+    notifyListeners();
+
+    return AuthResponse(success: true, credential: userCredential, user: _dataBaseUser);
+
+  } catch (e) {
+    debugPrint("Error in Google Sign-In: $e");
+    return AuthResponse(success: false, failure: AuthFailure.general);
+  }
+}
 
   Future<AuthResponse> register(
     String email,
@@ -104,6 +185,7 @@ class AppAuthProvider extends ChangeNotifier {
     }
     return AuthResponse(success: false, failure: AuthFailure.general);
   }
+  
 }
 
 class AuthResponse {

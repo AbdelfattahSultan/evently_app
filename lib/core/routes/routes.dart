@@ -7,6 +7,16 @@ class Routes {
   static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
+  static const String createEvent = '/createEvent';
+  static const String chooseLocation = '/ChooseLocation';
+  static const String intro = '/intro';
+  static const String eventDetails = '/eventDetails';
+  static const String editEvent = '/editEvent';
+
+
+
+
+
 
 
 

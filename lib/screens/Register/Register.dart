@@ -1,6 +1,7 @@
 import 'package:evently_app/common/Custom_Text_Filed.dart';
 import 'package:evently_app/common/Validator.dart';
 import 'package:evently_app/common/custom_button.dart';
+import 'package:evently_app/core/design/app_colors.dart';
 import 'package:evently_app/core/design/app_images.dart';
 import 'package:evently_app/core/routes/routes.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
@@ -51,8 +52,10 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Column(
           children: [
             Column(
@@ -75,32 +78,32 @@ class _RegisterState extends State<Register> {
                   CustomTextFiled(
                     controller: nameController,
                     icon: Icons.person,
-                    label: "Name",
+                    label: l10n.name,
                     validator: nameValidator,
                   ),
                   CustomTextFiled(
                     controller: emailController,
                     icon: Icons.email,
-                    label: "Email",
+                    label: l10n.email,
                     validator: emailValidator,
                   ),
                   CustomTextFiled(
                     controller: phoneController,
                     icon: Icons.phone,
-                    label: "phone",
+                    label: l10n.phone,
                     validator: phoneValidator,
                   ),
                   CustomTextFiled(
                     controller: passwordController,
                     icon: Icons.lock,
-                    label: "Password",
+                    label: l10n.password,
                     isPassword: true,
                     validator: validatePassword,
                   ),
                   CustomTextFiled(
                     controller: confirmPasswordController,
                     icon: Icons.lock,
-                    label: "Re Password",
+                    label: l10n.confirmPassword,
                     isPassword: true,
                     validator: (password) {
                       if (password == null || password.isEmpty) {
@@ -115,20 +118,22 @@ class _RegisterState extends State<Register> {
                     onTap: () {
                       createAccount();
                     },
-                    content: "Create Account",
+                    content: l10n.createEvent,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "I, Have Account ?",
+                        l10n.alreadyHave,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, Routes.login);
                         },
-                        child: Text("login"),
+                        child: Text(l10n.login,style: TextStyle(
+                          color: AppColors.primary,
+                        ),),
                       ),
                     ],
                   ),

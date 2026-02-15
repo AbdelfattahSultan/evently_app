@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 
 class CustomTextFiled extends StatefulWidget {
   String label;
-  IconData icon;
+  IconData? icon;
   bool isPassword;
   String? Function(String?)? validator;
   TextEditingController controller;
+  int? maxLines;
   CustomTextFiled({
     super.key,
-    required this.icon,
+     this.icon,
     required this.label,
     this.isPassword = false,
     required this.validator,
-    required  this.controller
+    required this.controller,
+     this.maxLines=1
   });
 
   @override
@@ -27,6 +29,8 @@ class _CustomTextFiledState extends State<CustomTextFiled> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: TextFormField(
+        style: Theme.of(context).textTheme.titleMedium,
+        maxLines: widget.maxLines,
         controller: widget.controller,
         validator: widget.validator,
         obscureText: widget.isPassword ? obscure : false,
